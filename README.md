@@ -1,4 +1,6 @@
-Sistema para uso educacional, sem fins lucrativos, representação de um sistema de ORDEM DE SEVIÇO
+Sistema para uso educacional, sem fins lucrativos, representação de um sistema de ORDEM DE SERVIÇO
+
+Link do site:  https://irae-cesar-brandao.github.io/ordem_servico_smp/
 
 Escopo: Estrutura do Sistema
 O sistema ORDEM DE SERVIÇO / ATENDIMENTOS terá:
