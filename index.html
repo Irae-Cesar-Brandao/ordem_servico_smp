@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Sistema de Ordem de Serviço</title>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <!-- ESTILIZAÇÃO CSS -->
 
@@ -128,6 +129,12 @@ footer {
 <!--  CORPO DA PÁGINA -->
 
 <body>
+<header class="cabecalho">
+  <h1>Nome da Empresa</h1>
+  <p>CNPJ: 00.000.000/0000-00</p>
+  <p>Endereço: Rua Exemplo, 123 - Bairro - Cidade/UF - CEP</p>
+  <p>Site: www.suaempresa.com.br</p>
+</header>
 
 <header>
      SISTEMA DE ORDEM DE SERVIÇO / ATENDIMENTOS
@@ -140,6 +147,12 @@ footer {
 <h2>Cadastro da Ordem de Serviço</h2>
 
 <div class="grid">
+
+<!-- CAMPO NÚEMRO DA ORDEM DE SERVIÇO -->
+<div>
+<label>Número da OS</label>
+<input id="numeroOS">
+</div>
 
 <div>
 <label>Nome do Cliente</label>
@@ -226,10 +239,11 @@ footer {
 
 <button onclick="salvar()">Salvar Ordem</button>
 <button onclick="exportar()">Exportar Excel</button>
+<button onclick="gerarPDF()">Exportar PDF</button>
 
 </div>
 
-<div class="card">
+<div class="card" id="areaPDF">
 
 <h2>Ordens Registradas</h2>
 
@@ -285,6 +299,7 @@ function salvar(){
 
 let ordem={
 
+numero:document.getElementById("numeroOS").value,
 cliente:document.getElementById("cliente").value,
 telefone:document.getElementById("telefone").value,
 equipamento:document.getElementById("equipamento").value,
@@ -350,6 +365,31 @@ a.click()
 
 }
 
+/* GERAR O FORMULÁRIO PDF PARA EXPORTAÇÃO */
+
+async function gerarPDF(){
+
+const { jsPDF } = window.jspdf;
+
+let area = document.getElementById("areaPDF");
+
+html2canvas(area).then(canvas => {
+
+let imgData = canvas.toDataURL("image/png");
+
+let pdf = new jsPDF("p","mm","a4");
+
+let largura = 210;
+let altura = canvas.height * largura / canvas.width;
+
+pdf.addImage(imgData,"PNG",0,0,largura,altura);
+
+pdf.save("ordem_servico.pdf");
+
+});
+
+}
+
 </script>
 
 </body>
@@ -360,4 +400,3 @@ a.click()
      © 2026 -    LUCK WAY®  Inf.  - Iraê César Brandão - DEV  
     </footer>
 </html>
-
