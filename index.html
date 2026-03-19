@@ -2,115 +2,38 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Sistema de Ordem de Serviço</title>
+<title>OS Profissional Completa</title>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-<!-- ESTILIZAÇÃO CSS -->
-
 <style>
+body{font-family:Arial;background:#eef2f5;margin:0;}
+header{background:#2c3e50;color:white;padding:15px;text-align:center;}
+.container{max-width:1100px;margin:auto;padding:20px;}
+.card{background:white;padding:20px;border-radius:10px;margin-bottom:20px;}
 
-body{
-font-family: Arial;
-background:black;
-margin:0;
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.full{grid-column:1/span 2;}
+
+input,textarea,select{
+width:100%;padding:8px;border-radius:5px;border:1px solid #ccc;
 }
 
-header{
-background:#2c3e50;
-color:white;
-padding:15px;
-text-align:center;
-font-size:22px;
-}
+button{padding:8px;border:none;border-radius:5px;color:white;cursor:pointer;margin-top:5px;}
+.salvar{background:#27ae60;}
+.pdf{background:#2980b9;}
+.whats{background:#25D366;}
+.xml{background:#8e44ad;}
 
-.container{
-max-width:1100px;
-margin:auto;
-padding:20px;
-}
+.preview{max-width:120px;}
 
-.card{
-background:white;
-padding:20px;
-border-radius:10px;
-margin-bottom:20px;
-box-shadow:0 3px 10px rgba(0,0,0,0.1);
-}
+#areaOS{border:2px solid #000;padding:15px;background:white;}
 
-h2{
-margin-top:0;
-color:#2c3e50;
-}
+.rodape{font-size:12px;margin-top:15px;border-top:1px solid #000;padding-top:10px;}
 
-.grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:15px;
-}
-
-.full{
-grid-column:1 / span 2;
-}
-
-label{
-font-weight:bold;
-font-size:14px;
-}
-
-input,select,textarea{
-width:100%;
-padding:8px;
-border-radius:6px;
-border:1px solid #ccc;
-margin-top:4px;
-}
-
-button{
-background:#27ae60;
-border:none;
-padding:10px 16px;
-border-radius:6px;
-color:white;
-cursor:pointer;
-margin-top:10px;
-}
-
-button:hover{
-background:#219150;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:10px;
-}
-
-th,td{
-border:1px solid #ddd;
-padding:8px;
-font-size:14px;
-}
-
-th{
-background:#34495e;
-color:white;
-}
-
-.preview{
-max-width:150px;
-margin-top:5px;
-border-radius:5px;
-}
-
-.actions button{
-margin-right:5px;
-background:#2980b9;
-}
-
-.actions button.whatsapp{
-background:#25D366;
-}
+table{width:100%;border-collapse:collapse;}
+th,td{border:1px solid #ccc;padding:5px;}
 
 
 footer {
@@ -123,39 +46,36 @@ footer {
 
 </style>
 
-
 </head>
 
-<!--  CORPO DA PÁGINA -->
-
 <body>
-<header class="cabecalho">
-  <h1>Nome da Empresa</h1>
-  <p>CNPJ: 00.000.000/0000-00</p>
-  <p>Endereço: Rua Exemplo, 123 - Bairro - Cidade/UF - CEP</p>
-  <p>Site: www.suaempresa.com.br</p>
-</header>
-
 <header>
-     SISTEMA DE ORDEM DE SERVIÇO / ATENDIMENTOS
+<h2>LUCK WAY® Informática</h2>
+<p>CNPJ: 00.000.000/0000-00     Site: https://luckway.com.br</p>
+<p>Rua Francisco Saulle, nº 80 - Bairro Centro - Passa Quatro/MG - 37460-000</p>
 </header>
 
 <div class="container">
 
 <div class="card">
 
-<h2>Cadastro da Ordem de Serviço</h2>
+<h3>Cadastro ORDEM DE SERVIÇO</h3>
+<h2>LUCK WAY® Informática</h2>
 
 <div class="grid">
 
-<!-- CAMPO NÚEMRO DA ORDEM DE SERVIÇO -->
 <div>
-<label>Número da OS</label>
+<label>Nº OS</label>
 <input id="numeroOS">
 </div>
 
 <div>
-<label>Nome do Cliente</label>
+<label>Técnico</label>
+<input id="tecnico">
+</div>
+
+<div>
+<label>Nome do Cliente </label>
 <input id="cliente">
 </div>
 
@@ -165,7 +85,7 @@ footer {
 </div>
 
 <div class="full">
-<label>Endereço</label>
+<label">Endereço </label>
 <input id="endereco">
 </div>
 
@@ -193,200 +113,297 @@ footer {
 </select>
 </div>
 
+
 <div class="full">
-<label>Problema Relatado</label>
+<label>Equipamento Extras (bolsas, cabos e periféricos deixados)</label>
+<input id="equipamento">
+</div>
+
+<div class="full">
+<label>Problema</label>
 <textarea id="problema"></textarea>
 </div>
 
 <div>
-<label>Data</label>
-<input type="date" id="data">
+<label>Data Início</label>
+<input type="date" id="dataInicio">
 </div>
 
 <div>
 <label>Hora Início</label>
-<input type="time" id="inicio">
+<input type="time" id="horaInicio">
+</div>
+
+<div>
+<label>Data Final</label>
+<input type="date" id="dataFinal">
 </div>
 
 <div>
 <label>Hora Final</label>
-<input type="time" id="fim">
-</div>
-
-<div>
-<label>Valor (R$)</label>
-<input id="valor">
+<input type="time" id="horaFinal">
 </div>
 
 <div class="full">
-<label>Descrição da Execução</label>
+<label>Execução</label>
 <textarea id="execucao"></textarea>
 </div>
 
-<div>
+<div class="full">
+<label>Valor Total= do Serviço + Produtos</label>
+<input id="valorServico">
+</div>
+
+<div class="full">
+<label>Produtos / Peças (descrição)</label>
+<textarea id="produtos"></textarea>
+</div>
+
+</div>
+
 <label>Foto Inicial</label>
 <input type="file" id="fotoInicio">
 <img id="previewInicio" class="preview">
-</div>
 
-<div>
 <label>Foto Final</label>
 <input type="file" id="fotoFim">
 <img id="previewFim" class="preview">
-</div>
+
+<br>
+
+<button class="salvar" onclick="salvar()">Salvar</button>
+<button class="pdf" onclick="gerarPDF()">PDF</button>
+<button class="whats" onclick="whats()">WhatsApp</button>
+<button class="xml" onclick="exportarXML()">Exportar XML</button>
+<button style="background:red" onclick="limparTudo()">Limpar Dados</button>
+
+<input type="file" onchange="importarXML(event)">
 
 </div>
 
-<button onclick="salvar()">Salvar Ordem</button>
-<button onclick="exportar()">Exportar Excel</button>
-<button onclick="gerarPDF()">Exportar PDF</button>
+<!-- VISUAL -->
+<div id="areaOS" class="card"></div>
 
-</div>
-
-<div class="card" id="areaPDF">
-
-<h2>Ordens Registradas</h2>
-
-<table id="tabela">
-
-<tr>
-<th>Cliente</th>
-<th>Telefone</th>
-<th>Equipamento</th>
-<th>Início</th>
-<th>Fim</th>
-<th>Valor</th>
-<th>Ações</th>
-</tr>
-
-</table>
-
+<!-- LISTA -->
+<div class="card">
+<h3>Ordens Registradas</h3>
+<table id="listaOS"></table>
 </div>
 
 </div>
-
-
-<!-- SCRIPT JS -->
 
 <script>
 
-let ordens=[];
+let banco = JSON.parse(localStorage.getItem("bancoOS")) || [];
 
 function preview(input,img){
-
-const file=input.files[0];
 const reader=new FileReader();
-
-reader.onload=function(){
-img.src=reader.result;
+reader.onload=()=>img.src=reader.result;
+reader.readAsDataURL(input.files[0]);
 }
 
-reader.readAsDataURL(file);
-
-}
-
-document.getElementById("fotoInicio")
-.addEventListener("change",function(){
-preview(this,document.getElementById("previewInicio"))
-})
-
-document.getElementById("fotoFim")
-.addEventListener("change",function(){
-preview(this,document.getElementById("previewFim"))
-})
+fotoInicio.onchange=()=>preview(fotoInicio,previewInicio);
+fotoFim.onchange=()=>preview(fotoFim,previewFim);
 
 function salvar(){
 
-let ordem={
+let os={
+numero:numeroOS.value,
+tecnico:tecnico.value,
+cliente:cliente.value,
+telefone:telefone.value,
+dataInicio:dataInicio.value,
+horaInicio:horaInicio.value,
+dataFinal:dataFinal.value,
+horaFinal:horaFinal.value,
+endereco:endereco.value,
+equipamento:equipamento.value,
+problema:problema.value,
+execucao:execucao.value,
+valorServico:valorServico.value,
+produtos:produtos.value,
+img1:previewInicio.src,
+img2:previewFim.src
+};
 
-numero:document.getElementById("numeroOS").value,
-cliente:document.getElementById("cliente").value,
-telefone:document.getElementById("telefone").value,
-equipamento:document.getElementById("equipamento").value,
-inicio:document.getElementById("inicio").value,
-fim:document.getElementById("fim").value,
-valor:document.getElementById("valor").value
+let i=banco.findIndex(o=>o.numero===os.numero);
 
-}
+if(i>=0){banco[i]=os;}else{banco.push(os);}
 
-ordens.push(ordem)
+localStorage.setItem("bancoOS",JSON.stringify(banco));
 
-let tabela=document.getElementById("tabela")
+listar();
+montarVisual(os);
 
-let linha=tabela.insertRow()
-
-linha.insertCell(0).innerText=ordem.cliente
-linha.insertCell(1).innerText=ordem.telefone
-linha.insertCell(2).innerText=ordem.equipamento
-linha.insertCell(3).innerText=ordem.inicio
-linha.insertCell(4).innerText=ordem.fim
-linha.insertCell(5).innerText=ordem.valor
-
-let acoes=linha.insertCell(6)
-
-acoes.className="actions"
-
-acoes.innerHTML=
-
-'<button onclick="detalhes()">Detalhes</button>'+
-'<button class="whatsapp" onclick="whats(\''+ordem.telefone+'\')">WhatsApp</button>'
-
-alert("Ordem registrada")
+alert("Salvo!");
 
 }
 
-function whats(numero){
+function montarVisual(o){
 
-let url="https://wa.me/55"+numero
+areaOS.innerHTML=`
+<h2>ORDEM DE SERVIÇO</h2>
+<b>Nº:</b> ${o.numero}<br>
+<b>Técnico:</b> ${o.tecnico}<br><br>
 
-window.open(url)
+<b>Cliente:</b> ${o.cliente}<br>
+<b>Telefone:</b> ${o.telefone}<br>
+<b>Endereço:</b> ${o.endereco}<br><br>
+
+<b>Equipamento:</b> ${o.equipamento}<br><br>
+
+<b>Data/Hora Início:</b> ${o.dataInicio} ${o.horaInicio}<br>
+<b>Data/Hora Final:</b> ${o.dataFinal} ${o.horaFinal}<br><br>
+
+<b>Problema:</b><br>${o.problema}<br><br>
+
+<b>Execução:</b><br>${o.execucao}<br><br>
+
+<b>Produtos:</b><br>${o.produtos}<br><br>
+
+<b>Valor total = Serviço + Produtos:</b><h1> R$ ${o.valorServico}</h1><br><br>
+
+<img src="${o.img1}" class="preview">
+<img src="${o.img2}" class="preview">
+
+<div class="rodape">
+Ciente de que o equipamento deixado para manutenção terá prazo de 180 dias, podendo após esse prazo ser descartado ou reutilizado.
+</div>
+`;
 
 }
 
-function exportar(){
+function listar(){
 
-let csv="Cliente,Telefone,Equipamento,Inicio,Fim,Valor\n"
+listaOS.innerHTML="<tr><th>Nº</th><th>Cliente</th><th>Ação</th></tr>";
 
-ordens.forEach(function(o){
+banco.forEach(o=>{
+let linha=listaOS.insertRow();
 
-csv+=o.cliente+","+o.telefone+","+o.equipamento+","+o.inicio+","+o.fim+","+o.valor+"\n"
+linha.insertCell(0).innerText=o.numero;
+linha.insertCell(1).innerText=o.cliente;
 
-})
-
-let blob=new Blob([csv],{type:"text/csv"})
-
-let a=document.createElement("a")
-
-a.href=URL.createObjectURL(blob)
-
-a.download="ordens_servico.csv"
-
-a.click()
-
-}
-
-/* GERAR O FORMULÁRIO PDF PARA EXPORTAÇÃO */
-
-async function gerarPDF(){
-
-const { jsPDF } = window.jspdf;
-
-let area = document.getElementById("areaPDF");
-
-html2canvas(area).then(canvas => {
-
-let imgData = canvas.toDataURL("image/png");
-
-let pdf = new jsPDF("p","mm","a4");
-
-let largura = 210;
-let altura = canvas.height * largura / canvas.width;
-
-pdf.addImage(imgData,"PNG",0,0,largura,altura);
-
-pdf.save("ordem_servico.pdf");
-
+linha.insertCell(2).innerHTML=
+`<button onclick='editar("${o.numero}")'>Editar</button>`;
 });
+
+}
+
+function editar(n){
+
+let o=banco.find(x=>x.numero===n);
+
+for(let k in o){
+if(document.getElementById(k)){
+document.getElementById(k).value=o[k];
+}
+}
+
+previewInicio.src=o.img1;
+previewFim.src=o.img2;
+
+montarVisual(o);
+
+}
+
+function gerarPDF(){
+
+html2canvas(areaOS).then(canvas=>{
+let pdf=new jspdf.jsPDF();
+pdf.addImage(canvas.toDataURL("image/png"),"PNG",0,0,210,290);
+pdf.save("OS_"+numeroOS.value+".pdf");
+});
+
+}
+
+function whats(){
+
+let msg=`OS ${numeroOS.value}
+Cliente: ${cliente.value}
+Equipamento: ${equipamento.value}
+Valor: R$ ${valorServico.value}`;
+
+window.open("https://wa.me/55"+telefone.value+"?text="+encodeURIComponent(msg));
+
+}
+
+/* XML */
+
+function exportarXML(){
+
+let xml="<ordens>";
+
+banco.forEach(o=>{
+xml+=`<os>
+<numero>${o.numero}</numero>
+<cliente>${o.cliente}</cliente>
+<valor>${o.valorServico}</valor>
+</os>`;
+});
+
+xml+="</ordens>";
+
+let blob=new Blob([xml],{type:"text/xml"});
+let a=document.createElement("a");
+a.href=URL.createObjectURL(blob);
+a.download="backup.xml";
+a.click();
+
+}
+
+function importarXML(e){
+
+let file=e.target.files[0];
+let reader=new FileReader();
+
+reader.onload=function(){
+
+let parser=new DOMParser();
+let xml=parser.parseFromString(reader.result,"text/xml");
+
+let lista=xml.getElementsByTagName("os");
+
+banco=[];
+
+for(let i=0;i<lista.length;i++){
+let o=lista[i];
+
+banco.push({
+numero:o.getElementsByTagName("numero")[0].textContent,
+cliente:o.getElementsByTagName("cliente")[0].textContent,
+valorServico:o.getElementsByTagName("valor")[0].textContent
+});
+}
+
+localStorage.setItem("bancoOS",JSON.stringify(banco));
+listar();
+
+alert("XML importado!");
+
+}
+
+reader.readAsText(file);
+
+}
+
+listar();
+
+/* LIMPEZA DE DADOS REGISTRADOS */
+function limparTudo(){
+
+if(confirm("Tem certeza que deseja apagar TODAS as ordens?")){
+
+localStorage.removeItem("bancoOS");
+
+banco = [];
+
+listar();
+
+areaOS.innerHTML = "";
+
+alert("Dados apagados com sucesso!");
+
+}
 
 }
 
@@ -394,8 +411,8 @@ pdf.save("ordem_servico.pdf");
 
 </body>
 
-<!--  INICIO DO RODAPÉ-->
 
+<!--  INICIO DO RODAPÉ-->
     <footer>
      © 2026 -    LUCK WAY®  Inf.  - Iraê César Brandão - DEV  
     </footer>

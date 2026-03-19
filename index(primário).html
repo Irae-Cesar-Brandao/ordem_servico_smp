@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Sistema de Ordem de Serviço</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<!-- ESTILIZAÇÃO CSS -->
+
+<style>
+
+body{
+font-family: Arial;
+background:black;
+margin:0;
+}
+
+header{
+background:#2c3e50;
+color:white;
+padding:15px;
+text-align:center;
+font-size:22px;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:20px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:10px;
+margin-bottom:20px;
+box-shadow:0 3px 10px rgba(0,0,0,0.1);
+}
+
+h2{
+margin-top:0;
+color:#2c3e50;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+}
+
+.full{
+grid-column:1 / span 2;
+}
+
+label{
+font-weight:bold;
+font-size:14px;
+}
+
+input,select,textarea{
+width:100%;
+padding:8px;
+border-radius:6px;
+border:1px solid #ccc;
+margin-top:4px;
+}
+
+button{
+background:#27ae60;
+border:none;
+padding:10px 16px;
+border-radius:6px;
+color:white;
+cursor:pointer;
+margin-top:10px;
+}
+
+button:hover{
+background:#219150;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+th,td{
+border:1px solid #ddd;
+padding:8px;
+font-size:14px;
+}
+
+th{
+background:#34495e;
+color:white;
+}
+
+.preview{
+max-width:150px;
+margin-top:5px;
+border-radius:5px;
+}
+
+.actions button{
+margin-right:5px;
+background:#2980b9;
+}
+
+.actions button.whatsapp{
+background:#25D366;
+}
+
+
+footer {
+    background-color: #2c3e50;; 
+    color: white;      
+    width: 100%;            
+    padding: 8px 0;     
+    text-align: center;     
+}
+
+</style>
+
+
+</head>
+
+<!--  CORPO DA PÁGINA -->
+
+<body>
+<header class="cabecalho">
+  <h1>Nome da Empresa</h1>
+  <p>CNPJ: 00.000.000/0000-00</p>
+  <p>Endereço: Rua Exemplo, 123 - Bairro - Cidade/UF - CEP</p>
+  <p>Site: www.suaempresa.com.br</p>
+</header>
+
+<header>
+     SISTEMA DE ORDEM DE SERVIÇO / ATENDIMENTOS
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Cadastro da Ordem de Serviço</h2>
+
+<div class="grid">
+
+<!-- CAMPO NÚEMRO DA ORDEM DE SERVIÇO -->
+<div>
+<label>Número da OS</label>
+<input id="numeroOS">
+</div>
+
+<div>
+<label>Nome do Cliente</label>
+<input id="cliente">
+</div>
+
+<div>
+<label>Telefone</label>
+<input id="telefone">
+</div>
+
+<div class="full">
+<label>Endereço</label>
+<input id="endereco">
+</div>
+
+<div>
+<label>Cidade</label>
+<input id="cidade">
+</div>
+
+<div>
+<label>Estado</label>
+<input id="estado">
+</div>
+
+<div>
+<label>Equipamento</label>
+<input id="equipamento">
+</div>
+
+<div>
+<label>Tipo de Atendimento</label>
+<select id="tipo">
+<option>Remoto</option>
+<option>Presencial</option>
+<option>Laboratório</option>
+</select>
+</div>
+
+<div class="full">
+<label>Problema Relatado</label>
+<textarea id="problema"></textarea>
+</div>
+
+<div>
+<label>Data</label>
+<input type="date" id="data">
+</div>
+
+<div>
+<label>Hora Início</label>
+<input type="time" id="inicio">
+</div>
+
+<div>
+<label>Hora Final</label>
+<input type="time" id="fim">
+</div>
+
+<div>
+<label>Valor (R$)</label>
+<input id="valor">
+</div>
+
+<div class="full">
+<label>Descrição da Execução</label>
+<textarea id="execucao"></textarea>
+</div>
+
+<div>
+<label>Foto Inicial</label>
+<input type="file" id="fotoInicio">
+<img id="previewInicio" class="preview">
+</div>
+
+<div>
+<label>Foto Final</label>
+<input type="file" id="fotoFim">
+<img id="previewFim" class="preview">
+</div>
+
+</div>
+
+<button onclick="salvar()">Salvar Ordem</button>
+<button onclick="exportar()">Exportar Excel</button>
+<button onclick="gerarPDF()">Exportar PDF</button>
+
+</div>
+
+<div class="card" id="areaPDF">
+
+<h2>Ordens Registradas</h2>
+
+<table id="tabela">
+
+<tr>
+<th>Cliente</th>
+<th>Telefone</th>
+<th>Equipamento</th>
+<th>Início</th>
+<th>Fim</th>
+<th>Valor</th>
+<th>Ações</th>
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- SCRIPT JS -->
+
+<script>
+
+let ordens=[];
+
+function preview(input,img){
+
+const file=input.files[0];
+const reader=new FileReader();
+
+reader.onload=function(){
+img.src=reader.result;
+}
+
+reader.readAsDataURL(file);
+
+}
+
+document.getElementById("fotoInicio")
+.addEventListener("change",function(){
+preview(this,document.getElementById("previewInicio"))
+})
+
+document.getElementById("fotoFim")
+.addEventListener("change",function(){
+preview(this,document.getElementById("previewFim"))
+})
+
+function salvar(){
+
+let ordem={
+
+numero:document.getElementById("numeroOS").value,
+cliente:document.getElementById("cliente").value,
+telefone:document.getElementById("telefone").value,
+equipamento:document.getElementById("equipamento").value,
+inicio:document.getElementById("inicio").value,
+fim:document.getElementById("fim").value,
+valor:document.getElementById("valor").value
+
+}
+
+ordens.push(ordem)
+
+let tabela=document.getElementById("tabela")
+
+let linha=tabela.insertRow()
+
+linha.insertCell(0).innerText=ordem.cliente
+linha.insertCell(1).innerText=ordem.telefone
+linha.insertCell(2).innerText=ordem.equipamento
+linha.insertCell(3).innerText=ordem.inicio
+linha.insertCell(4).innerText=ordem.fim
+linha.insertCell(5).innerText=ordem.valor
+
+let acoes=linha.insertCell(6)
+
+acoes.className="actions"
+
+acoes.innerHTML=
+
+'<button onclick="detalhes()">Detalhes</button>'+
+'<button class="whatsapp" onclick="whats(\''+ordem.telefone+'\')">WhatsApp</button>'
+
+alert("Ordem registrada")
+
+}
+
+function whats(numero){
+
+let url="https://wa.me/55"+numero
+
+window.open(url)
+
+}
+
+function exportar(){
+
+let csv="Cliente,Telefone,Equipamento,Inicio,Fim,Valor\n"
+
+ordens.forEach(function(o){
+
+csv+=o.cliente+","+o.telefone+","+o.equipamento+","+o.inicio+","+o.fim+","+o.valor+"\n"
+
+})
+
+let blob=new Blob([csv],{type:"text/csv"})
+
+let a=document.createElement("a")
+
+a.href=URL.createObjectURL(blob)
+
+a.download="ordens_servico.csv"
+
+a.click()
+
+}
+
+/* GERAR O FORMULÁRIO PDF PARA EXPORTAÇÃO */
+
+async function gerarPDF(){
+
+const { jsPDF } = window.jspdf;
+
+let area = document.getElementById("areaPDF");
+
+html2canvas(area).then(canvas => {
+
+let imgData = canvas.toDataURL("image/png");
+
+let pdf = new jsPDF("p","mm","a4");
+
+let largura = 210;
+let altura = canvas.height * largura / canvas.width;
+
+pdf.addImage(imgData,"PNG",0,0,largura,altura);
+
+pdf.save("ordem_servico.pdf");
+
+});
+
+}
+
+</script>
+
+</body>
+
+<!--  INICIO DO RODAPÉ-->
+
+    <footer>
+     © 2026 -    LUCK WAY®  Inf.  - Iraê César Brandão - DEV  
+    </footer>
+</html>
